@@ -1,0 +1,58 @@
+Things need to be done before the first session:
+Install python3
+Install pygame:
+    In terminal, type: python3 pip install pygame
+Download game assets
+Set up file system (could have ninjas do this, up to you)
+Install a python code editor
+    I recommend VSCode
+
+Things senseis should know:
+Basic python (everything in python Differences below)
+Pygame essentials:
+    Surfaces are drawn in the order that they are made before the display.update().
+    Imagine the first .blit as having a z of 0, the second as a z of 1, etc. This ordering will
+    be reconsidered every update.
+    
+TODO: Make a loading screen with .sleep to keep the pizza box for a sec?
+DAY 1:
+    Overview:
+    - Explain the differences between javascript and python on a basic level.
+    - Basic game programming theory
+    - setting up the game and the background
+
+/    Python Differences:
+        no ;
+        : instead of {}
+            Indentation
+        Loops:
+            for loops:
+                for i in range(5):
+                    print("This will be printed 5 times!")
+            for-each loops:
+                numList = [42, 28, 39, 18, 92]
+                for num in numList:
+                    print(num) #this will print each number once
+            while loops:
+                while i < 5:
+                    print("This will be printed 5 times!")
+                    i -= 1
+            (OPTIONAL: Do While)
+        dot operator
+        Tuples, Lists, (dicts?)
+        Comments/Documentation
+        Python convention:
+            CAPS for final variables
+    Game Theory:
+        Game setup/loop
+    Start coding!
+        File system set up
+        Set up like the book
+        Explain:
+            RGB set up
+            Drawing shapes in detail (outline the parameters in the method call)
+            adding assets
+
+
+
+
