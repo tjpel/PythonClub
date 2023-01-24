@@ -21,7 +21,7 @@ DAY 1:
     - Basic game programming theory
     - setting up the game and the background
 
-/    Python Differences:
+    Python Differences:
         no ;
         : instead of {}
             Indentation
@@ -29,6 +29,7 @@ DAY 1:
             for loops:
                 for i in range(5):
                     print("This will be printed 5 times!")
+                explain what range does
             for-each loops:
                 numList = [42, 28, 39, 18, 92]
                 for num in numList:
@@ -52,6 +53,27 @@ DAY 1:
             RGB set up
             Drawing shapes in detail (outline the parameters in the method call)
             adding assets
+
+
+DAY 2:
+    Overview:
+        Nested for loops
+        OOP
+        Inheritance
+        Instantiation
+
+    Teach:
+        Nested for loops
+            Both with range() and for-each loop
+            Make and use an example
+        OOP + Inheritance
+            Use animal example to explain.
+                Superclass: Pets 
+                    eat(), speak(), number_of_legs, name
+                Subclass: Dog, Cat, Lizard
+                    rollover(), breed
+                    color, stripes, stalk()
+                    sunbathe(), spikes
 
 
 

@@ -1,6 +1,4 @@
 """
-This code, and all code going forward, use Day 1 - Step 4 v2.
-Notice multiple areas of new code in this step.
 """
 
 import pygame as pg
@@ -18,7 +16,6 @@ WINDOW_WIDTH = 1100
 WINDOW_HEIGHT = 600
 WINDOW_RES = (WINDOW_WIDTH, WINDOW_HEIGHT)
 
-#***********************************
 #color constants
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -32,7 +29,6 @@ COLUMNS = 11
 WIDTH = 100
 HEIGHT = 100
 TILE_COLOR = WHITE
-#***********************************
 
 #------------------------------------------------
 #load assets
@@ -64,7 +60,7 @@ background_img = image.load('gameassets\\restaurant.jpg')
 background_surf = Surface.convert_alpha(background_img)
 BACKGROUND = transform.scale(background_surf, WINDOW_RES)
 
-#*************************************************
+
 #-------------------------------------------------
 #Initialize and draw background grid
 for row in range(ROWS):
