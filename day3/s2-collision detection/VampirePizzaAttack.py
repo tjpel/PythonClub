@@ -1,8 +1,7 @@
 """
-This step is for adding the enemies and creating the clock.
-The clock, with the frame rate, helps the enemies move across the stage by creating time.
-We also create the vampire sprite class(with __init__ and update functions).
-The enemies are created in random intervals in the main game loop.
+This step is for making the actual collisions happen.
+Define the new speeds at the top first
+Single point insertions on line 91, 198, 205
 """
 
 import pygame as pg
@@ -13,10 +12,8 @@ from random import randint
 #Start pygame
 pg.init()
 
-#****************************
 #set up a clock
 clock = time.Clock()
-#****************************
 
 #-----------------------------------------------
 #define constants
@@ -40,11 +37,15 @@ WIDTH = 100
 HEIGHT = 100
 TILE_COLOR = WHITE
 
+#***********************
+#define speeds
+REG_SPEED = 2
+SLOW_SPEED = 1
+#***********************
+
 #Other
 SPAWN_RATE = 180
-#*****************************
 FRAME_RATE = 60
-#*****************************
 
 #------------------------------------------------
 #load assets
@@ -79,7 +80,6 @@ BACKGROUND = transform.scale(background_surf, WINDOW_RES)
 #-------------------------------------------------
 #Create class system
 
-#******************************************************************
 #Create a subclass of Sprite called VampireSprite
 class VampireSprite(sprite.Sprite):
 
@@ -88,7 +88,7 @@ class VampireSprite(sprite.Sprite):
         #Use everything from sprite to make sprite
         super().__init__()
         #Set the speed
-        self.speed = 2
+        self.speed = REG_SPEED #*
         #Randomly select the lane the monster will be in from 0 and 4
         self.lane = randint(0, 4)
         #Add all vampire pizza sprites to a group so you can control them all together
@@ -106,16 +106,34 @@ class VampireSprite(sprite.Sprite):
         #Move the sprites
         self.rect.x -= self.speed
         game_window.blit(self.image, (self.rect.x, self.rect.y))
-#-----------------------------------------------------------------------------
+
+#Background tiles class
+class BackgroundTile(sprite.Sprite):
+
+    def __init__(self, rect):
+        super().__init__()
+        self.effect = False
+        self.rect = rect
+#-------------------------------------------------
 #Create class instances and groups
 
 #Create a group for all the VampireSprites
 all_vampires = sprite.Group()
-#***************************************************************************************
 #-------------------------------------------------
 #Initialize and draw background grid
+tileGrid = []
 for row in range(ROWS):
+    #create an empty list to put the new row in
+    rowOfTiles = [] 
+    #add the new list to the tile grid
+    tileGrid.append(rowOfTiles) 
     for column in range(COLUMNS):
+        #create an invisible rectangle for each background tile sprite
+        tileRect = Rect(WIDTH*column, HEIGHT*row, WIDTH, HEIGHT)
+        #for each column and each row, create a new background tile sprite
+        newTile = BackgroundTile(tileRect)
+        #add the new tile to the correct list
+        rowOfTiles.append(newTile)
         draw.rect(BACKGROUND, TILE_COLOR, (WIDTH*column, HEIGHT*row, WIDTH, HEIGHT), 1)
 
 
@@ -135,21 +153,69 @@ while(game_running):
         #Exit loop on quit
         if event.type == QUIT:
             game_running = False
+        #wait for the mouse button to me clicked and run this when clicked
+        elif event.type == MOUSEBUTTONDOWN:
+            #get the (x,y) coordinate where the mouse was clicked
+            coordinates = mouse.get_pos()
+            x = coordinates[0]
+            y = coordinates[1]
+            #find the background tile the click happened on and change effect to true
+            tile_y = y // 100
+            tile_x = x // 100
+            tileGrid[tile_y][tile_x].effect = True #hold up, what does this do? why y,x?
+
         #spawn vampire pizza sprites
         if randint(1, SPAWN_RATE) == 1:
             VampireSprite()
 
-        #********************************
-        #update display
+        #*******************************************
+        #-------------------------------------------
+        #Set up collision detection
+        #for each vampire
         for vampire in all_vampires:
-            vampire.update(GAME_WINDOW)
-        #*********************************
+            #store the row that the vampire is in
+            tileRow = tileGrid[vampire.rect.y // 100]
+            #find the left and right sides
+            vampLeftSide = vampire.rect.x // 100
+            vampRightSide = (vampire.rect.x + vampire.rect.width) // 100
+
+            #if the vamp is on the grid, find which column it's in
+            if 0 <= vampLeftSide <= 10:
+                leftTile = tileRow[vampLeftSide]
+            #set it to nothing if the vamp is not on the grid
+            else:
+                leftTile = None
+
+            #same as left
+            if 0 <= vampRightSide <= 10:
+                rightTile = tileRow[vampRightSide]
+            else:
+                rightTile = None
+
+            #Test if the left side of the vamp is touching a tile where there is a trap
+            #If it is, set the speed to 1
+            if bool(leftTile) and leftTile.effect:
+                vampire.speed = SLOW_SPEED #*
+            
+            #Test if the right side of the vamp is touching a tile and if that tile has been clicked
+            if bool(rightTile) and rightTile.effect:
+                #check if the left and right sides of the vamp are touching diff tiles
+                if rightTile != leftTile:
+                    #if both are true, set the speed to 1
+                    vampire.speed = SLOW_SPEED #*
+
+            #delete the vamp sprite as it leaves the screen
+            if vampire.rect.x <= 0:
+                vampire.kill()
+        #*******************************************************************************
+
         #update display
+        for vampire in all_vampires: #for each vampire in all_vampires
+            vampire.update(GAME_WINDOW)
+
         display.update()
 
-        #*******************************
         clock.tick(FRAME_RATE)
-        #*******************************
 
 #clean up
 pg.quit()

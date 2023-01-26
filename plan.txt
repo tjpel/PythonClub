@@ -74,6 +74,28 @@ DAY 2:
                     rollover(), breed
                     color, stripes, stalk()
                     sunbathe(), spikes
+        Frame Rates
+    
+    Start coding!
+        Main file should be called VampirePizzaAttack.py and other should be MonsterFoods.py
+
+DAY 3:
+    Overview:
+        2d arrays
+        conditionals
+
+    Teach:
+        2d arrays
+            how it makes a grid
+            ask what a 3d array would look like irl and in coding?
+        0 indexing (they should already know this)
+        floor division
+        conditionals (again, should already know this)
+            ==, !=, >, <, >=, <=
+            and / or
+        type-casting
+
+        
 
 
 
