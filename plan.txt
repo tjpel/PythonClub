@@ -14,7 +14,6 @@ Pygame essentials:
     Imagine the first .blit as having a z of 0, the second as a z of 1, etc. This ordering will
     be reconsidered every update.
     
-TODO: Make a loading screen with .sleep to keep the pizza box for a sec?
 DAY 1:
     Overview:
     - Explain the differences between javascript and python on a basic level.
@@ -25,6 +24,7 @@ DAY 1:
         no ;
         : instead of {}
             Indentation
+        no () for if statements - optional
         Loops:
             for loops:
                 for i in range(5):
@@ -94,6 +94,8 @@ DAY 3:
             ==, !=, >, <, >=, <=
             and / or
         type-casting
+        modulus
+        boolean conversions
 
         
 

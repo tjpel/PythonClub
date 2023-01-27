@@ -1,6 +1,6 @@
 """
-This step adds the point system that act as money for buying traps.
-It also adds a visual display in-game for the points
+This step adds different trap types, including the images for them, 2 classes for making and applying them,
+and changes lines to incorperate this new system.
 """
 
 import pygame as pg
@@ -36,11 +36,10 @@ WIDTH = 100
 HEIGHT = 100
 TILE_COLOR = WHITE
 
-#***************************************
+
 STARTING_BUCKS = 15
 BUCK_RATE = 60 #halfed for frame rate halved
 STARTING_BUCK_BOOSTER = 1
-#***************************************
 
 #define speeds
 REG_SPEED = 2
@@ -63,6 +62,22 @@ pizza_surf = Surface.convert_alpha(pizza_img)
 VAMPIRE_PIZZA = transform.scale(pizza_surf, (100, 100))
 GAME_WINDOW.blit(VAMPIRE_PIZZA, (900, 400))
 
+#*************************************************************************************
+#import garlic trap
+garlic_img = image.load('gameassets\\garlic.png')
+garlic_surf = Surface.convert_alpha(garlic_img)
+GARLIC = transform.scale(garlic_surf, (WIDTH, HEIGHT))
+
+#set up pizza cutter
+cutter_img = image.load('gameassets\\pizzacutter.png')
+cutter_surf = Surface.convert_alpha(cutter_img)
+CUTTER = transform.scale(cutter_surf, (WIDTH, HEIGHT))
+
+#set up pepperoni img
+pepp_img = image.load('gameassets\\pepperoni.png')
+pepp_surf = Surface.convert_alpha(pepp_img)
+PEPPERONI = transform.scale(pepp_surf, (WIDTH, HEIGHT))
+#**************************************************************************************
 #add a giant pepperoni
 draw.circle(GAME_WINDOW, (255, 0, 0), (925, 425), 25, 0)
 
@@ -118,7 +133,6 @@ class BackgroundTile(sprite.Sprite):
         self.effect = False
         self.rect = rect
 
-#*************************************
 class Counters(object):
     #Set up __init__ method with 4 arguements
     def __init__(self, pizza_bucks, buck_rate, buck_booster):
@@ -154,20 +168,49 @@ class Counters(object):
         #display the new total
         game_window.blit(bucks_surf, self.bucks_rect)
 
-
     def update(self, game_window):
         self.loopCount += 1
         self.increment_bucks()
         self.draw_bucks(game_window)
-#*************************************
+
+#***************************************************************************
+#Traps Class
+class Trap(object):
+    def __init__(self, trap_kind, cost, trap_img):
+        self.trap_kind = trap_kind
+        self.cost = cost
+        self.trap_img = trap_img
+
+#Trap applicator class
+class TrapApplicator(object):
+    def __init__(self):
+        self.selected = None
+
+    def select_trap(self, trap):
+        if trap.cost <= counters.pizza_bucks:
+            self.selected = trap
+
+    def select_tile(self, tile, counters):
+        self.selected = tile.set_trap(self.selected, counters)
+#****************************************************************************
+
 #-------------------------------------------------
 #Create class instances and groups
 
 #Create a group for all the VampireSprites
 all_vampires = sprite.Group()
-#************************
+
+#create a group for all the counters
 counters = Counters(STARTING_BUCKS, BUCK_RATE, STARTING_BUCK_BOOSTER)
-#************************
+
+#***************************************************************************
+#initialize traps
+SLOW = Trap('SLOW', 5, GARLIC)
+DAMAGE = Trap('DAMAGE', 3, CUTTER)
+EARN = Trap('EARN', 7, PEPPERONI)
+
+trap_applicator = TrapApplicator()
+#****************************************************************************)
 #-------------------------------------------------
 #Initialize and draw background grid
 tileGrid = []
@@ -211,7 +254,12 @@ while(game_running):
             #find the background tile the click happened on and change effect to true
             tile_y = y // 100
             tile_x = x // 100
-            tileGrid[tile_y][tile_x].effect = True #hold up, what does this do? why y,x?
+            #**************************************************************************************
+            #DELETE BELOW
+            #tileGrid[tile_y][tile_x].effect = True #hold up, what does this do? why y,x?
+            #ADD
+            trap_applicator.select_tile(tileGrid[tile_y][tile_x], counters)
+            #*************************************************************************************
 
         #spawn vampire pizza sprites
         if randint(1, SPAWN_RATE) == 1:
@@ -260,9 +308,7 @@ while(game_running):
         for vampire in all_vampires: #for each vampire in all_vampires
             vampire.update(GAME_WINDOW)
 
-        #************************
         counters.update(GAME_WINDOW)
-        #************************
         display.update()
 
         clock.tick(FRAME_RATE)

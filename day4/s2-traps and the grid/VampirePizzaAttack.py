@@ -1,6 +1,5 @@
 """
-This step adds the point system that act as money for buying traps.
-It also adds a visual display in-game for the points
+This step
 """
 
 import pygame as pg
@@ -38,7 +37,7 @@ TILE_COLOR = WHITE
 
 #***************************************
 STARTING_BUCKS = 15
-BUCK_RATE = 60 #halfed for frame rate halved
+BUCK_RATE = 120 #halfed for frame rate halved
 STARTING_BUCK_BOOSTER = 1
 #***************************************
 
