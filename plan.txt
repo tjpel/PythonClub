@@ -97,6 +97,18 @@ DAY 3:
         modulus
         boolean conversions
 
+DAY 4:
+    Overview:
+        Adding and applying new traps
+        Adding interaction between pizza and traps
+        Adds class struture
+
+    Teach:
+        Review Inheritance
+        how method calls work
+        
+
+
         
 
 

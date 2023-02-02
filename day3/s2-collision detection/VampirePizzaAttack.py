@@ -1,7 +1,8 @@
 """
 This step is for making the actual collisions happen.
-Define the new speeds at the top first
-Single point insertions on line 91, 198, 205
+Define the new speeds at the top first, to create constants for the speed so nothing goes at an
+unintended speed.
+Single point insertions on line 92, 199, 206 to set to these speeds
 """
 
 import pygame as pg

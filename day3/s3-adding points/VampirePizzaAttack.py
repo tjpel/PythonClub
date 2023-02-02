@@ -1,6 +1,7 @@
 """
-This step adds the point system that act as money for buying traps.
-It also adds a visual display in-game for the points
+This step adds the point "pizza bucks" system that act as money for buying traps in the future.
+It also adds a visual display in-game for the points in the lower-left corner by bringing in a 
+font from the game assets.
 """
 
 import pygame as pg

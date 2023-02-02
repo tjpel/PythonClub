@@ -1,6 +1,7 @@
 """
 This step is for making interactive fields for collision detection and buttons.
-This is done by creating a class for the background tile
+This is done by creating a class for the background tile. The background is generated using two
+for loops and making a 2d array of BackgroundTiles
 """
 
 import pygame as pg
